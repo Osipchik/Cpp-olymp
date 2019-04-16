@@ -25,21 +25,29 @@ string archive(string str)
     symbol = str[0];
     int symbol_count = 0;
 
-    while (count < str_size+1)
+    while (count < str_size + 1)
     {
         if (str[count] == symbol) symbol_count++;
         else
         {
-            if (symbol_count > 1)
+            if (symbol_count > 2)
             {
-                /*RLE += GetNum(symbol_count);
-                symbol_count = 0;*/
                 RLE += GetSNum(symbol_count);
+                RLE += symbol;
             }
-            RLE += symbol;
-            if (count + 1 < str_size)
+            else if (symbol_count == 2)
             {
-                symbol = str[count + 1];
+                RLE += symbol;
+                RLE += symbol;
+            }
+            else if (symbol_count == 1)
+            {
+                RLE += symbol;
+            }
+            symbol_count = 0;
+            if (symbol != str[count])
+            {
+                symbol = str[count];
                 symbol_count = 1;
             }
         }
@@ -47,7 +55,6 @@ string archive(string str)
     }
     return RLE;
 }
-
 string GetSNum(int symbol_count)
 {
     string num = "\0";
@@ -58,3 +65,4 @@ string GetSNum(int symbol_count)
     }
     return num;
 }
+
